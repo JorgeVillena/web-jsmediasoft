@@ -40,6 +40,11 @@ In Bluehost cPanel:
 5. Note the **FTP host** (e.g. `ftp.jsmediasoft.com` or the server-specific host shown in cPanel) and **port** (`21` for FTPS)
 6. Confirm FTPS / explicit TLS is enabled (Bluehost has it on by default)
 
+> The domain `jsmediasoft.com` is served from the Bluehost addon-domain folder
+> `public_html/website_bac71128/`. Since the FTP user is jailed in `/public_html/`,
+> the GitHub Action must upload to **`/website_bac71128/`** (the path is relative
+> to the FTP user's home, not absolute on disk).
+
 ### 1.3 GitHub repository
 
 The repo lives at `https://github.com/JorgeVillena/web-jsmediasoft`.
@@ -51,7 +56,7 @@ Set the following **Secrets** in `Settings -> Secrets and variables -> Actions -
 | `BLUEHOST_FTP_SERVER` | hostname from Bluehost FTP (no protocol, no port) |
 | `BLUEHOST_FTP_USERNAME` | the FTP user created above |
 | `BLUEHOST_FTP_PASSWORD` | the password for that user |
-| `BLUEHOST_FTP_DIR` | `/public_html/` (trailing slash matters) |
+| `BLUEHOST_FTP_DIR` | `/website_bac71128/` (relative to FTP user's home `/public_html/`; trailing slash matters) |
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | `zctnqm2f` |
 | `NEXT_PUBLIC_SANITY_DATASET` | `production` |
 
