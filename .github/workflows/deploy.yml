@@ -1,0 +1,67 @@
+name: Deploy to Bluehost
+
+on:
+  push:
+    branches:
+      - main
+  repository_dispatch:
+    types:
+      - sanity-update
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-bluehost
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    name: Build static site and upload via SFTP
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          NEXT_PUBLIC_SANITY_API_VERSION: 2026-01-01
+          NEXT_PUBLIC_SANITY_STUDIO_URL: https://jsmediasoft.sanity.studio
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f out/index.html
+          test -f out/en/index.html
+          test -f out/es/index.html
+          test -f out/.htaccess
+          echo "Build output OK"
+
+      - name: Deploy to Bluehost via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.BLUEHOST_FTP_SERVER }}
+          username: ${{ secrets.BLUEHOST_FTP_USERNAME }}
+          password: ${{ secrets.BLUEHOST_FTP_PASSWORD }}
+          server-dir: ${{ secrets.BLUEHOST_FTP_DIR }}
+          local-dir: ./out/
+          protocol: ftps
+          port: 21
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/cgi-bin/**
+            **/.well-known/**

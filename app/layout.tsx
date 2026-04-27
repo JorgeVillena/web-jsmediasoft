@@ -1,20 +1,43 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-body-sans",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jsmediasoft.com"),
   title: {
-    default: "JSMediaSoft",
+    default: "JSMediaSoft | Web, E-commerce & Software Consultancy",
     template: "%s | JSMediaSoft",
   },
   description:
-    "Consultora de desarrollo web, e-commerce, integraciones Shopify y modernizacion de sistemas empresariales.",
+    "JSMediaSoft is a US-based digital consultancy delivering web platforms, e-commerce, Shopify integrations and legacy modernization. Headquartered with a global team, serving Omaha and beyond.",
+  keywords: [
+    "web development agency Omaha",
+    "Shopify integration consultancy",
+    "e-commerce development",
+    "legacy system modernization",
+    "Next.js agency",
+    "JSMediaSoft",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: "JSMediaSoft",
+    title: "JSMediaSoft | Web, E-commerce & Software Consultancy",
+    description:
+      "Premium digital partner for ambitious teams. Web, e-commerce, Shopify and legacy modernization. Based in the US.",
+    url: "https://jsmediasoft.com",
+  },
 };
 
 export default function RootLayout({
@@ -23,8 +46,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[var(--color-bg-soft)] text-[var(--color-text-dark)]">
+    <html
+      lang="en"
+      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col bg-[var(--color-soft-bg)] text-[var(--color-text-dark)]">
         {children}
       </body>
     </html>

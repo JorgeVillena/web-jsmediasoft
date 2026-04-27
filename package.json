@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "sanity": "sanity dev",
+    "sanity:deploy": "sanity deploy",
     "sanity:deploy-schema": "sanity schema deploy"
   },
   "dependencies": {
