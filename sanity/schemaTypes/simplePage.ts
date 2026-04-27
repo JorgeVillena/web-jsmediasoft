@@ -20,7 +20,7 @@ function buildSimplePage(name: string, title: string) {
   });
 }
 
-export const homePage = buildSimplePage("homePage", "Home Page");
-export const aboutPage = buildSimplePage("aboutPage", "About Page");
-export const contactPage = buildSimplePage("contactPage", "Contact Page");
-export const navigation = buildSimplePage("navigation", "Navigation");
+export const homePage = buildSimplePage("homePage", "Home Page");  // This is the home page for the website
+export const aboutPage = buildSimplePage("aboutPage", "About Page"); // This is the about page for the website
+export const contactPage = buildSimplePage("contactPage", "Contact Page"); // This is the contact page for the website
+export const navigation = buildSimplePage("navigation", "Navigation"); // This is the navigation for the website
